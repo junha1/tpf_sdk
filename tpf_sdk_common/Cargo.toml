@@ -1,0 +1,13 @@
+[package]
+name = "tpf_sdk_common"
+version = "0.0.0"
+authors = ["Junha Yang <junhayang1@gmail.com>"]
+edition = '2018'
+
+[dependencies]
+remote-trait-object = "0.5"
+linkme = "0.2"
+parking_lot = "0.11"
+serde = "1.0"
+serde_cbor = "0.11.1"
+pyo3 = "0.13"

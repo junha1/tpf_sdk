@@ -1,0 +1,24 @@
+[package]
+name = "tpf_pysdk"
+version = "0.0.0"
+authors = ["Junha Yang <junhayang1@gmail.com>"]
+edition = '2018'
+exclude = []
+
+[lib]
+name = "tpf"
+crate-type = ["cdylib"]
+
+[dependencies]
+remote-trait-object = "0.5"
+# foundry-process-sandbox = { git = "https://github.com/CodeChain-io/foundry-sandbox.git" }
+foundry-process-sandbox = { path = "/home/junha/Desktop/foundry-sandbox/process-sandbox" }
+linkme = "0.2"
+parking_lot = "0.11"
+serde = "1.0"
+serde_cbor = "0.11.1"
+tpf_sdk_common = { path = "../tpf_sdk_common"}
+
+[dependencies.pyo3]
+version = "0.13.0"
+features = ["extension-module"]

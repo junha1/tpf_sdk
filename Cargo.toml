@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "tpf_pysdk",
+    "tpf_sdk_common"
+]
