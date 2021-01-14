@@ -11,8 +11,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 remote-trait-object = "0.5"
-# foundry-process-sandbox = { git = "https://github.com/CodeChain-io/foundry-sandbox.git" }
-foundry-process-sandbox = { path = "/home/junha/Desktop/foundry-sandbox/process-sandbox" }
+foundry-process-sandbox = { git = "https://github.com/CodeChain-io/foundry-sandbox.git" }
 linkme = "0.2"
 parking_lot = "0.11"
 serde = "1.0"

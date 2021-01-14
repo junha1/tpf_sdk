@@ -143,6 +143,7 @@ dependencies = [
 [[package]]
 name = "foundry-process-sandbox"
 version = "0.2.1"
+source = "git+https://github.com/CodeChain-io/foundry-sandbox.git#8af836bdadb4ca137d7d68cc76be963af6c81321"
 dependencies = [
  "crossbeam",
  "hex",
