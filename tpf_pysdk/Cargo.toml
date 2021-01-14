@@ -18,7 +18,7 @@ parking_lot = "0.11"
 serde = "1.0"
 serde_cbor = "0.11.1"
 tpf_sdk_common = { path = "../tpf_sdk_common"}
+pyo3 = "0.13"
 
-[dependencies.pyo3]
-version = "0.13.0"
-features = ["extension-module"]
+[features]
+extension-module = ["pyo3/extension-module"]

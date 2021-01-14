@@ -1,13 +1,19 @@
-/*
+//! We have to carry tests in another crate because of link bug in PyO3
+
 use foundry_process_sandbox::ipc::Ipc;
 use remote_trait_object::*;
-use tpf_sdk_common::{Tpf, render_test::{RenderTest, RenderTestRenderer}};
+use tpf_sdk_common::{
+    render_test::{RenderTest, RenderTestRenderer},
+    Tpf,
+};
 
 struct TestTpf;
 impl Service for TestTpf {}
 impl Tpf for TestTpf {
     fn render_test(&self) -> Option<ServiceRef<dyn RenderTest>> {
-        Some(ServiceRef::create_export(Box::new(TestRenderTest) as Box<dyn RenderTest>))
+        Some(ServiceRef::create_export(
+            Box::new(TestRenderTest) as Box<dyn RenderTest>
+        ))
     }
 }
 
@@ -39,37 +45,27 @@ fn run_server() {
             ServiceToExport::new(Box::new(TestTpf) as Box<dyn Tpf>),
         );
         ctx.wait(None).unwrap();
-        println!("SERVER END");
     }
 }
 
 #[test]
 fn hello() {
-    std::thread::spawn(|| run_server());
+    std::thread::spawn(run_server);
     let addr = "127.0.0.1:4444".parse::<std::net::SocketAddr>().unwrap();
 
     std::thread::sleep(std::time::Duration::from_millis(100));
 
-    for _ in 0..10 {
+    for _ in 0..4 {
+        std::thread::sleep(std::time::Duration::from_millis(500));
         let (send, recv) =
             foundry_process_sandbox::ipc::stream_socket::Tcp::new_client(addr).split();
-
         let (ctx, x): (_, ServiceToImport<dyn Tpf>) =
             Context::with_initial_service_import(Config::default_setup(), send, recv);
         let x: Box<dyn Tpf> = x.into_proxy();
         let y: Box<dyn RenderTest> = x.render_test().unwrap().into_object();
         let mut z: Box<dyn RenderTestRenderer> = y.renderer().into_object();
         z.set_probes(true);
-        drop(x);
-        drop(ctx);
 
-        std::thread::sleep(std::time::Duration::from_millis(1000));
+        ctx.disable_garbage_collection();
     }
 }
-
-#[test]
-fn just() {
-    run_server()
-}
-
-*/
