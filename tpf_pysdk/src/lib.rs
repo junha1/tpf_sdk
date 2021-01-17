@@ -1,3 +1,5 @@
+mod service_impls;
+
 use foundry_process_sandbox::ipc::Ipc;
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
@@ -19,8 +21,8 @@ impl Drop for Connection {
 
 #[pymethods]
 impl Connection {
-    fn test_server(&self) -> sdk_common::TpfPy {
-        sdk_common::TpfPy {
+    fn test_server(&self) -> service_impls::TpfPy {
+        service_impls::TpfPy {
             proxy: self.test_server.clone(),
         }
     }
@@ -46,9 +48,9 @@ fn create_connection(port: u16) -> PyResult<Connection> {
 fn tpf(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(create_connection, m)?)?;
     m.add_class::<Connection>()?;
-    m.add_class::<sdk_common::TpfPy>()?;
-    m.add_class::<sdk_common::render_test::RenderTestPy>()?;
-    m.add_class::<sdk_common::render_test::RenderTestRendererPy>()?;
+    m.add_class::<service_impls::TpfPy>()?;
+    m.add_class::<service_impls::render_test::RenderTestPy>()?;
+    m.add_class::<service_impls::render_test::RenderTestRendererPy>()?;
 
     Ok(())
 }
